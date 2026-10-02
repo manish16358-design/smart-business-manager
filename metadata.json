@@ -1,0 +1,8 @@
+{
+  "name": "Remix Smart Business Manager",
+  "description": "Professional business management dashboard with real SQLite database metrics, summary cards, 7-day sales chart, recent transactions, inventory alerts, and responsive sidebar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

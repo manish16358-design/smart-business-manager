@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Smart Business Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-body">
+
+    <!-- Top Header (Requirement 1) -->
+    <header class="top-header" id="mainHeader">
+        <div class="header-left">
+            <button type="button" class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="header-brand">
+                <div class="brand-logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+                <span class="brand-text">Smart Business Manager</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="user-profile-badge" id="userBadge">
+                <div class="user-avatar">
+                    <span>{{ username[0]|upper }}</span>
+                </div>
+                <span class="user-name-display">{{ username }}</span>
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="btn-logout" id="logoutBtn" title="Log out of session">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span class="logout-label">Logout</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- App Layout Container -->
+    <div class="app-layout">
+        <!-- Sidebar Backdrop for Mobile -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+        <!-- Sidebar Navigation (Requirement 2) -->
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-header-mobile">
+                <span class="sidebar-mobile-title">Navigation</span>
+                <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <!-- 1. Dashboard (Functional) -->
+                <a href="{{ url_for('dashboard') }}" class="nav-item active" id="navDashboard">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+
+                <!-- 2. Sales & Billing (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="Sales & Billing">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="nav-label">Sales &amp; Billing</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 3. Inventory (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="Inventory">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                    <span class="nav-label">Inventory</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 4. Employees (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="Employees">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span class="nav-label">Employees</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 5. Customers (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="Customers">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span class="nav-label">Customers</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 6. Expenses (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="Expenses">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                    <span class="nav-label">Expenses</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 7. Reports (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="Reports">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span class="nav-label">Reports</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 8. AI Assistant (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="AI Assistant">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                    </svg>
+                    <span class="nav-label">AI Assistant</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 9. Settings (Coming Soon) -->
+                <button type="button" class="nav-item nav-coming-soon" data-feature="Settings">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    <span class="nav-label">Settings</span>
+                    <span class="badge-soon">Soon</span>
+                </button>
+
+                <!-- 10. Logout (Functional) -->
+                <div class="sidebar-divider"></div>
+                <a href="{{ url_for('logout') }}" class="nav-item nav-logout">
+                    <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span class="nav-label">Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Dashboard Content -->
+        <main class="dashboard-content" id="dashboardContent">
+            <div class="content-container">
+
+                <!-- Page Header & Quick Actions (Requirement 8) -->
+                <div class="content-header">
+                    <div>
+                        <h1 class="page-title">Business Dashboard</h1>
+                        <p class="page-subtitle">Real-time overview from your SQLite database</p>
+                    </div>
+
+                    <!-- Quick Action Buttons -->
+                    <div class="quick-actions-bar" id="quickActionsBar">
+                        <button type="button" class="btn-action btn-action-primary" data-action="New Sale">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            <span>New Sale</span>
+                        </button>
+                        <button type="button" class="btn-action" data-action="Add Product">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                            <span>Add Product</span>
+                        </button>
+                        <button type="button" class="btn-action" data-action="Add Expense">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            <span>Add Expense</span>
+                        </button>
+                        <button type="button" class="btn-action" data-action="Add Employee">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <line x1="20" y1="8" x2="20" y2="14"></line>
+                                <line x1="23" y1="11" x2="17" y2="11"></line>
+                            </svg>
+                            <span>Add Employee</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6 Summary Cards (Requirements 3 & 4) -->
+                <div class="summary-cards-grid">
+                    <!-- Card 1: Today's Sales -->
+                    <div class="summary-card" id="cardTodaySales">
+                        <div class="card-header-flex">
+                            <span class="card-title">Today's Sales</span>
+                            <div class="card-icon-pill icon-sales">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card-value-display">
+                            ${{ "%.2f"|format(metrics.today_sales) }}
+                        </div>
+                        <div class="card-subtext">Actual database sales today</div>
+                    </div>
+
+                    <!-- Card 2: Today's Expenses -->
+                    <div class="summary-card" id="cardTodayExpenses">
+                        <div class="card-header-flex">
+                            <span class="card-title">Today's Expenses</span>
+                            <div class="card-icon-pill icon-expenses">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card-value-display">
+                            ${{ "%.2f"|format(metrics.today_expenses) }}
+                        </div>
+                        <div class="card-subtext">Logged operating expenses</div>
+                    </div>
+
+                    <!-- Card 3: Today's Profit (Sales - Expenses) -->
+                    <div class="summary-card card-highlight" id="cardTodayProfit">
+                        <div class="card-header-flex">
+                            <span class="card-title">Today's Profit</span>
+                            <div class="card-icon-pill icon-profit">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                    <polyline points="17 6 23 6 23 12"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card-value-display {% if metrics.today_profit < 0 %}text-danger{% elif metrics.today_profit > 0 %}text-success{% endif %}">
+                            ${{ "%.2f"|format(metrics.today_profit) }}
+                        </div>
+                        <div class="card-subtext">Calculated: Sales - Expenses</div>
+                    </div>
+
+                    <!-- Card 4: Total Products -->
+                    <div class="summary-card" id="cardTotalProducts">
+                        <div class="card-header-flex">
+                            <span class="card-title">Total Products</span>
+                            <div class="card-icon-pill icon-products">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card-value-display">
+                            {{ metrics.total_products }}
+                        </div>
+                        <div class="card-subtext">Items in inventory catalog</div>
+                    </div>
+
+                    <!-- Card 5: Low Stock Products -->
+                    <div class="summary-card" id="cardLowStock">
+                        <div class="card-header-flex">
+                            <span class="card-title">Low Stock Products</span>
+                            <div class="card-icon-pill icon-lowstock">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card-value-display {% if metrics.low_stock_count > 0 %}text-warning{% endif %}">
+                            {{ metrics.low_stock_count }}
+                        </div>
+                        <div class="card-subtext">At or below minimum threshold</div>
+                    </div>
+
+                    <!-- Card 6: Total Employees -->
+                    <div class="summary-card" id="cardTotalEmployees">
+                        <div class="card-header-flex">
+                            <span class="card-title">Total Employees</span>
+                            <div class="card-icon-pill icon-employees">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="card-value-display">
+                            {{ metrics.total_employees }}
+                        </div>
+                        <div class="card-subtext">Active team members</div>
+                    </div>
+                </div>
+
+                <!-- Sales Chart Section (Requirement 7) -->
+                <div class="chart-section-card" id="salesChartSection">
+                    <div class="chart-header">
+                        <div>
+                            <h2 class="section-title">Sales Overview (Last 7 Days)</h2>
+                            <p class="section-subtitle">Real database sales records across the past 7 days</p>
+                        </div>
+                        <div class="chart-badge">
+                            <span class="dot-indicator"></span>
+                            <span>Live Database Feed</span>
+                        </div>
+                    </div>
+
+                    <!-- Visual Chart Container (pure responsive SVG bars) -->
+                    <div class="chart-container">
+                        {% set max_val = 0 %}
+                        {% for day in metrics.chart_data %}
+                            {% if day.total > max_val %}
+                                {% set max_val = day.total %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="chart-bars-wrapper">
+                            {% for day in metrics.chart_data %}
+                                {% set height_pct = 0 %}
+                                {% if max_val > 0 %}
+                                    {% set height_pct = (day.total / max_val * 85)|round|int %}
+                                {% endif %}
+                                {% if height_pct < 4 and day.total > 0 %}
+                                    {% set height_pct = 4 %}
+                                {% endif %}
+
+                                <div class="chart-column">
+                                    <div class="chart-value-label">
+                                        ${{ "%.2f"|format(day.total) }}
+                                    </div>
+                                    <div class="chart-bar-slot">
+                                        <div class="chart-bar {% if day.total > 0 %}chart-bar-active{% else %}chart-bar-zero{% endif %}" 
+                                             style="height: {{ height_pct if height_pct > 0 else 3 }}%;">
+                                        </div>
+                                    </div>
+                                    <div class="chart-date-label">
+                                        {{ day.label }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2-Column Split: Recent Sales & Low Stock Alert -->
+                <div class="dashboard-grid-split">
+
+                    <!-- Recent Sales (Requirement 5) -->
+                    <div class="section-card" id="recentSalesSection">
+                        <div class="section-card-header">
+                            <div>
+                                <h2 class="section-title">Recent Sales</h2>
+                                <p class="section-subtitle">Transactions recorded in SQLite</p>
+                            </div>
+                        </div>
+
+                        {% if metrics.recent_sales and metrics.recent_sales|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>Product</th>
+                                            <th>Qty</th>
+                                            <th>Total</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for sale in metrics.recent_sales %}
+                                            <tr>
+                                                <td class="font-medium text-dark">{{ sale.customer_name }}</td>
+                                                <td>{{ sale.product_name }}</td>
+                                                <td>{{ sale.quantity }}</td>
+                                                <td class="font-medium text-emerald">${{ "%.2f"|format(sale.total_amount) }}</td>
+                                                <td class="text-muted">{{ sale.sale_date }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="empty-state-box">
+                                <div class="empty-icon-circle">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="9" cy="21" r="1"></circle>
+                                        <circle cx="20" cy="21" r="1"></circle>
+                                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                                    </svg>
+                                </div>
+                                <p class="empty-title">No sales recorded yet.</p>
+                                <p class="empty-desc">New sales logged to SQLite will appear here automatically.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Low Stock Alert (Requirement 6) -->
+                    <div class="section-card" id="lowStockSection">
+                        <div class="section-card-header">
+                            <div>
+                                <h2 class="section-title">Low Stock Alert</h2>
+                                <p class="section-subtitle">Inventory levels requiring restocking</p>
+                            </div>
+                        </div>
+
+                        {% if metrics.low_stock_products and metrics.low_stock_products|length > 0 %}
+                            <div class="low-stock-list">
+                                {% for product in metrics.low_stock_products %}
+                                    <div class="low-stock-item">
+                                        <div class="stock-item-info">
+                                            <span class="stock-product-name">{{ product.name }}</span>
+                                            <span class="stock-threshold-label">Min limit: {{ product.min_stock_level }}</span>
+                                        </div>
+                                        <div class="stock-badge-box">
+                                            <span class="badge-stock-danger">{{ product.stock_quantity }} left</span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="empty-state-box">
+                                <div class="empty-icon-circle success-circle">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                                <p class="empty-title">All products are sufficiently stocked.</p>
+                                <p class="empty-desc">No products are currently at or below their minimum stock level.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast for "Coming Soon" actions -->
+    <div class="toast-notification" id="actionToast" role="alert">
+        <div class="toast-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+        </div>
+        <div class="toast-content">
+            <strong id="toastTitle">Feature Notice</strong>
+            <span id="toastMessage">Coming Soon</span>
+        </div>
+    </div>
+
+    <!-- Client Script for Interactive Sidebar & Coming Soon notifications -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const closeBtn = document.getElementById('sidebarCloseBtn');
+            const sidebar = document.getElementById('appSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            const toast = document.getElementById('actionToast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastTitle = document.getElementById('toastTitle');
+            let toastTimer = null;
+
+            function openSidebar() {
+                sidebar.classList.add('sidebar-open');
+                backdrop.classList.add('backdrop-active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('sidebar-open');
+                backdrop.classList.remove('backdrop-active');
+                document.body.style.overflow = '';
+            }
+
+            if (mobileBtn) mobileBtn.addEventListener('click', openSidebar);
+            if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+            if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
+            // Toast helper
+            function showToast(featureName) {
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTitle.textContent = featureName;
+                toastMessage.textContent = 'Coming Soon';
+                toast.classList.add('toast-visible');
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('toast-visible');
+                }, 2800);
+            }
+
+            // Coming soon clicks on navigation items
+            document.querySelectorAll('.nav-coming-soon').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const feature = this.getAttribute('data-feature') || 'Module';
+                    showToast(feature);
+                    if (window.innerWidth < 1024) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            // Coming soon clicks on quick action buttons
+            document.querySelectorAll('.btn-action').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const actionName = this.getAttribute('data-action') || 'Action';
+                    showToast(actionName);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
